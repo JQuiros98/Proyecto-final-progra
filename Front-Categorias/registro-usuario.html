@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<!-- 🔹 NAVBAR LOGIN -->
+<nav class="navbar navbar-dark bg-dark px-3">
+    <span class="navbar-brand">Página Principal</span>
+
+    <form class="d-flex" id="formLogin">
+        <input class="form-control me-2" type="email" id="loginEmail" placeholder="Email" required>
+        <input class="form-control me-2" type="password" id="loginPassword" placeholder="Password" required>
+        <button class="btn btn-success" type="submit">Ingresar</button>
+    </form>
+
+    <!-- BOTÓN REGISTRO -->
+    <button class="btn btn-primary ms-3" type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasRegistro">
+        Registrarse
+    </button>
+</nav>
+
+<section class="container mt-4">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-5">
+            <div class="card shadow border-0 h-100">
+                <div class="card-body p-4">
+                    <span class="badge bg-primary mb-3">Bienvenido</span>
+                    <h1 class="h3 fw-bold">Conecta con eventos creados para personas reales</h1>
+                    <p class="text-muted mb-0">
+                        En esta plataforma puedes registrar actividades, explorar eventos y guardarlos en tu lista personal.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div id="carruselUsuarios" class="carousel slide shadow rounded-4 overflow-hidden" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1200&q=80" class="d-block w-100 object-fit-cover" style="height: 340px; filter: brightness(75%);" alt="Persona sonriendo">
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=1200&q=80" class="d-block w-100 object-fit-cover" style="height: 340px; filter: brightness(75%);" alt="Retrato de persona">
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1506863530036-1efeddceb993?auto=format&fit=crop&w=1200&q=80" class="d-block w-100 object-fit-cover" style="height: 340px; filter: brightness(75%);" alt="Persona en retrato">
+                    </div>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carruselUsuarios" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+
+                <button class="carousel-control-next" type="button" data-bs-target="#carruselUsuarios" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- 🔹 OFFCANVAS REGISTRO -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRegistro" data-bs-scroll="true">
+    <div class="offcanvas-header">
+        <h5>Registro de Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+
+    <div class="offcanvas-body">
+        <form id="formRegistro" class="needs-validation" novalidate>
+
+            <div class="mb-3">
+                <label>Nombre</label>
+                <input type="text" id="txtNombre" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Cédula</label>
+                <input type="text" id="txtCedula" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" id="txtEmail" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Password</label>
+                <input type="password" id="txtPassword" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Tipo de usuario</label>
+                <select id="sltUsuario" class="form-select" required>
+                    <option value="">Seleccione...</option>
+                    <option value="Promotor">Promotor</option>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Moderador">Moderador</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary w-100" type="submit">
+                Registrar usuario
+            </button>
+
+        </form>
+    </div>
+</div>
+
+
+<!-- 🔹 JS -->
+<script src="registro-usuario.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

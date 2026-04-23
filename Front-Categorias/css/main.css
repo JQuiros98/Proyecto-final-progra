@@ -1,0 +1,130 @@
+body {
+    background-color: #f4f6f9;
+}
+
+h1 {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Tarjetas de eventos */
+.evento-card {
+    transition: transform 0.2s;
+    border-radius: 10px;
+}
+
+.evento-card:hover {
+    transform: scale(1.03);
+}
+
+/* Panel admin */
+#panelAdmin {
+    border: 2px solid #000;
+}
+
+/* Botón */
+button {
+    border-radius: 8px;
+}
+
+.avatar-usuario {
+    width: 82px;
+    height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #e8f3ff;
+    color: #0d6efd;
+    font-size: 2.6rem;
+}
+
+.carrusel-eventos {
+    border-radius: 22px;
+    overflow: hidden;
+    background-color: #111827;
+}
+
+.carrusel-eventos .carousel-item {
+    height: 360px;
+}
+
+.carrusel-eventos img {
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(62%);
+}
+
+.carrusel-eventos .carousel-caption {
+    bottom: 48px;
+}
+
+.carrusel-eventos h2 {
+    color: #ffffff;
+    font-size: 2.4rem;
+    font-weight: 800;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+.carrusel-eventos p {
+    max-width: 620px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 768px) {
+    .carrusel-eventos .carousel-item {
+        height: 260px;
+    }
+
+    .carrusel-eventos h2 {
+        font-size: 1.7rem;
+    }
+
+    .carrusel-eventos p {
+        font-size: 0.95rem;
+    }
+}
+
+.footer-eventos {
+    background-color: #212529;
+    padding: 35px 0;
+}
+
+.footer-card {
+    display: none;
+}
+
+.footer-eventos .col-md-5 {
+    display: none;
+}
+
+.footer-eventos .col-md-7 {
+    width: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.55);
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.footer-eventos .display-6 {
+    font-size: 1.6rem;
+}
+
+.footer-eventos .lead {
+    font-size: 1rem;
+}
+
+.footer-eventos .d-flex {
+    display: none !important;
+}
+
+footer.bg-dark {
+    display: none;
+}
+
+.footer-img {
+    height: 180px;
+    object-fit: cover;
+}

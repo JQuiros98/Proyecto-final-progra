@@ -40,6 +40,12 @@
                     </a>
                 </li>
 
+                <li class="nav-item d-none" id="itemUsuarios">
+                    <button class="btn btn-outline-warning btn-sm ms-lg-2" id="btnVerUsuarios" type="button">
+                        Usuarios
+                    </button>
+                </li>
+
                 <li class="nav-item">
                     <button class="btn btn-outline-info btn-sm ms-lg-2" type="button" data-bs-toggle="modal" data-bs-target="#modalUsuario">
                         </i> Informacion personal
@@ -105,6 +111,34 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Siguiente</span>
         </button>
+    </div>
+
+    <div id="seccionUsuarios" class="card mb-4 shadow-sm d-none">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <span>Listado de Usuarios</span>
+            <span class="badge bg-warning text-dark" id="totalUsuarios">0 usuarios</span>
+        </div>
+
+        <div class="card-body">
+            <div class="row g-2 mb-3">
+                <div class="col-md-9">
+                    <select id="filtroTipoUsuario" class="form-select">
+                        <option value="">Todos los tipos de usuario</option>
+                        <option value="Usuario">Usuario</option>
+                        <option value="Promotor">Promotor</option>
+                        <option value="Moderador">Moderador</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <button class="btn btn-primary w-100" id="btnFiltrarUsuarios" type="button">
+                        Filtrar
+                    </button>
+                </div>
+            </div>
+
+            <div id="listaUsuarios" class="row g-3"></div>
+        </div>
     </div>
 
     <div class="card mb-4 shadow-sm" id="seccionCategorias">

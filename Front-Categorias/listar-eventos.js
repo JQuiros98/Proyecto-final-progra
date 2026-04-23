@@ -49,23 +49,20 @@ function mostrarEventos(eventos) {
 
     eventos.forEach(e => {
         lista.innerHTML += `
-            <div class="col-md-4 mb-3">
-                <div class="card shadow h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">${e.nombre}</h5>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100 border-0 evento-card">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary fw-bold">${e.nombre}</h5>
 
-                        <p><strong>Fecha:</strong> ${mostrarFechaEvento(e.fecha)}</p>
+                        <p class="mb-1"><strong>Fecha:</strong> ${mostrarFechaEvento(e.fecha)}</p>
 
-                        <p><strong>Ubicacion:</strong> ${e.ubicacion || 'No definida'}</p>
+                        <p class="mb-2"><strong>Ubicacion:</strong> ${e.ubicacion || 'No definida'}</p>
 
-                        <p>
-                            <strong>Estado:</strong>
-                            <span class="badge ${e.estado === 'cancelado' ? 'bg-danger' : 'bg-success'}">
-                                ${e.estado || 'activo'}
-                            </span>
-                        </p>
+                        <span class="badge mb-3 ${e.estado === 'cancelado' ? 'bg-danger' : 'bg-success'}">
+                            ${e.estado || 'activo'}
+                        </span>
 
-                        <button class="btn btn-primary w-100" onclick="verDetalle('${e._id}')">
+                        <button class="btn btn-outline-primary mt-auto" onclick="verDetalle('${e._id}')">
                             Ver detalle
                         </button>
                     </div>
@@ -122,6 +119,13 @@ function filtrarEventos() {
     }
 
     mostrarEventos(filtrados);
+}
+
+function limpiarFiltros() {
+    document.getElementById('filtroFecha').value = '';
+    document.getElementById('filtroEstado').value = '';
+    document.getElementById('detalle').innerHTML = '';
+    mostrarEventos(listaEventosGlobal);
 }
 
 cargarEventos();

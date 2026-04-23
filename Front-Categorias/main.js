@@ -1,11 +1,105 @@
 const usuarioGuardado = JSON.parse(localStorage.getItem('usuario')) || {};
 const tipoUsuario = usuarioGuardado.tipoUsuario || 'Usuario';
+let listaUsuariosGlobal = [];
+
+function obtenerFechaEvento(fecha) {
+    return fecha ? fecha.split('T')[0] : '';
+}
+
+function mostrarFechaEvento(fecha) {
+    const fechaEvento = obtenerFechaEvento(fecha);
+
+    if (!fechaEvento) {
+        return 'No definida';
+    }
+
+    const partes = fechaEvento.split('-');
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
 
 function aplicarPermisos() {
     document.getElementById('badgeRol').textContent = tipoUsuario;
 
     if (tipoUsuario === 'Moderador') {
         document.getElementById('panelAdmin').classList.remove('d-none');
+        document.getElementById('itemUsuarios').classList.remove('d-none');
+    }
+}
+
+async function cargarUsuarios() {
+    try {
+        const res = await fetch('http://localhost:3000/api/usuarios');
+        const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data.mensaje || 'Error al cargar usuarios');
+        }
+
+        listaUsuariosGlobal = data.usuarios || [];
+        mostrarUsuarios(listaUsuariosGlobal);
+    } catch (error) {
+        document.getElementById('listaUsuarios').innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-danger">
+                    ${error.message || 'Error al cargar usuarios'}
+                </div>
+            </div>
+        `;
+    }
+}
+
+function mostrarUsuarios(usuarios) {
+    const lista = document.getElementById('listaUsuarios');
+    const total = document.getElementById('totalUsuarios');
+
+    lista.innerHTML = '';
+    total.textContent = `${usuarios.length} usuarios`;
+
+    if (usuarios.length === 0) {
+        lista.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-warning mb-0">
+                    No hay usuarios para mostrar
+                </div>
+            </div>
+        `;
+        return;
+    }
+
+    usuarios.forEach(usuario => {
+        lista.innerHTML += `
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary fw-bold">${usuario.nombre}</h5>
+                        <p class="mb-1"><strong>Email:</strong> ${usuario.email}</p>
+                        <p class="mb-2"><strong>Cedula:</strong> ${usuario.cedula}</p>
+                        <span class="badge bg-dark">${usuario.tipoUsuario}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function filtrarUsuarios() {
+    const tipoSeleccionado = document.getElementById('filtroTipoUsuario').value;
+
+    if (!tipoSeleccionado) {
+        mostrarUsuarios(listaUsuariosGlobal);
+        return;
+    }
+
+    const usuariosFiltrados = listaUsuariosGlobal.filter(usuario => usuario.tipoUsuario === tipoSeleccionado);
+    mostrarUsuarios(usuariosFiltrados);
+}
+
+function mostrarSeccionUsuarios() {
+    const seccionUsuarios = document.getElementById('seccionUsuarios');
+    seccionUsuarios.classList.toggle('d-none');
+
+    if (!seccionUsuarios.classList.contains('d-none')) {
+        cargarUsuarios();
     }
 }
 
@@ -148,23 +242,20 @@ function mostrarEventos(eventos) {
             : '';
 
         contenedor.innerHTML += `
-            <div class="col-md-4 mb-3">
-                <div class="card shadow h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">${e.nombre}</h5>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100 border-0 evento-card">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary fw-bold">${e.nombre}</h5>
 
-                        <p><strong>Fecha:</strong> ${new Date(e.fecha).toLocaleDateString()}</p>
+                        <p class="mb-1"><strong>Fecha:</strong> ${mostrarFechaEvento(e.fecha)}</p>
 
-                        <p><strong>Ubicacion:</strong> ${e.ubicacion || 'No definida'}</p>
+                        <p class="mb-2"><strong>Ubicacion:</strong> ${e.ubicacion || 'No definida'}</p>
 
-                        <p>
-                            <strong>Estado:</strong>
-                            <span class="badge ${e.estado === 'cancelado' ? 'bg-danger' : 'bg-success'}">
-                                ${e.estado || 'activo'}
-                            </span>
-                        </p>
+                        <span class="badge mb-3 ${e.estado === 'cancelado' ? 'bg-danger' : 'bg-success'}">
+                            ${e.estado || 'activo'}
+                        </span>
 
-                        <button class="btn btn-primary w-100" onclick="verDetalleEventoMain('${e._id}')">
+                        <button class="btn btn-outline-primary mt-auto" onclick="verDetalleEventoMain('${e._id}')">
                             Ver detalle
                         </button>
 
@@ -183,7 +274,7 @@ function mostrarEventos(eventos) {
         if (selectPrincipal && selectDuplicado) {
             const opcionPrincipal = document.createElement('option');
             opcionPrincipal.value = e._id;
-            opcionPrincipal.textContent = `${e.nombre} - ${new Date(e.fecha).toLocaleDateString()}`;
+            opcionPrincipal.textContent = `${e.nombre} - ${mostrarFechaEvento(e.fecha)}`;
             selectPrincipal.appendChild(opcionPrincipal);
 
             const opcionDuplicado = opcionPrincipal.cloneNode(true);
@@ -283,7 +374,7 @@ async function cargarEventosGuardados() {
         const li = document.createElement('li');
         li.className = 'list-group-item d-flex justify-content-between align-items-center';
 
-        const fecha = new Date(evento.fecha).toLocaleDateString();
+        const fecha = mostrarFechaEvento(evento.fecha);
         li.innerHTML = `
             <span>${evento.nombre} - ${fecha}</span>
             <button class="btn btn-outline-danger btn-sm" onclick="eliminarEventoGuardado('${evento._id}')">
@@ -392,7 +483,7 @@ async function verDetalleEventoMain(id) {
                 <h3 class="text-primary">${e.nombre}</h3>
                 <hr>
 
-                <p><strong>Fecha:</strong> ${new Date(e.fecha).toLocaleDateString()}</p>
+                <p><strong>Fecha:</strong> ${mostrarFechaEvento(e.fecha)}</p>
                 <p><strong>Ubicacion:</strong> ${e.ubicacion || 'No definida'}</p>
 
                 <p>
@@ -445,5 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (tipoUsuario === 'Moderador') {
         document.getElementById('btnFusionarEventos').addEventListener('click', fusionarEventos);
+        document.getElementById('btnVerUsuarios').addEventListener('click', mostrarSeccionUsuarios);
+        document.getElementById('btnFiltrarUsuarios').addEventListener('click', filtrarUsuarios);
     }
 });
